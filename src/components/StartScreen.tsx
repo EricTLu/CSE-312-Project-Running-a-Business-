@@ -5,12 +5,13 @@ import { exitAppFullscreen, requestAppFullscreen } from "../fullscreen";
 type Props = {
   onStart: () => void;
   onHost: () => void;
+  onPresentation: () => void;
 };
 
 const HOST_PASSWORD = "Eric777";
 const PHONE_PLAY_URL = "http://172.24.23.243:5173/";
 
-export default function StartScreen({ onStart, onHost }: Props) {
+export default function StartScreen({ onStart, onHost, onPresentation }: Props) {
   const [hostPassword, setHostPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [showQrFullscreen, setShowQrFullscreen] = useState(false);
@@ -85,6 +86,9 @@ export default function StartScreen({ onStart, onHost }: Props) {
           <div className="menu-actions">
             <button className="primary-button hero-button" onClick={handleStart}>
               Play
+            </button>
+            <button className="secondary-button hero-button presentation-entry-button" onClick={onPresentation}>
+              Presentation Mode
             </button>
           </div>
         </div>

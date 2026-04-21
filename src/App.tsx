@@ -3,11 +3,12 @@ import StartScreen from "./components/StartScreen";
 import RunnerScreen from "./components/RunnerScreen";
 import ResultScreen from "./components/ResultScreen";
 import HostScreen from "./components/HostScreen";
+import PresentationScreen from "./components/PresentationScreen";
 import { gates, initialStats, type ChoiceSide, type PlayerChoice, type Stats } from "./gameData";
 import { getEnding, type Ending } from "./resultTakeaways";
 import { saveCompletedRun } from "./runStorage";
 
-type Screen = "start" | "game" | "result" | "host";
+type Screen = "start" | "game" | "result" | "host" | "presentation";
 type SaveStatus = "idle" | "saving" | "saved" | "error";
 
 type FinalRun = {
@@ -95,8 +96,13 @@ export default function App() {
       <StartScreen
         onStart={handleStart}
         onHost={() => setScreen("host")}
+        onPresentation={() => setScreen("presentation")}
       />
     );
+  }
+
+  if (screen === "presentation") {
+    return <PresentationScreen onBack={() => setScreen("start")} />;
   }
 
   if (screen === "host") {

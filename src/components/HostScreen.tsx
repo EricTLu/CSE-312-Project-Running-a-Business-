@@ -1,63 +1,16 @@
 import { useEffect, useState } from "react";
 import { onValue, ref, remove } from "firebase/database";
 import { db } from "../firebase";
-import type { Stats } from "../gameData";
-import type { CompletedRun } from "../runStorage";
 import { getDashboardSummary, possibleDashboardOutcomes } from "../dashboardSummary";
 import { toggleAppFullscreen } from "../fullscreen";
 import { getStatDisplayItems, STAT_DISPLAY_MAX, type StatTone } from "../statDisplay";
-
-type StoredRun = CompletedRun | (Stats & { timestamp?: number });
+import { averageStats, recentRuns, type StoredRun } from "../runAnalytics";
 
 type StatCardProps = {
   label: string;
   value: number;
   tone?: StatTone | "dark";
 };
-
-const emptyStats: Stats = {
-  profit: 0,
-  visibility: 0,
-  dependence: 0,
-  workerStrain: 0,
-};
-
-function getRunStats(run: StoredRun): Stats {
-  if ("finalStats" in run) {
-    return run.finalStats;
-  }
-
-  return {
-    profit: run.profit,
-    visibility: run.visibility,
-    dependence: run.dependence,
-    workerStrain: run.workerStrain,
-  };
-}
-
-function averageStats(runs: StoredRun[]): Stats {
-  if (runs.length === 0) return emptyStats;
-
-  const totals = runs.reduce(
-    (sum, run) => {
-      const stats = getRunStats(run);
-      return {
-        profit: sum.profit + stats.profit,
-        visibility: sum.visibility + stats.visibility,
-        dependence: sum.dependence + stats.dependence,
-        workerStrain: sum.workerStrain + stats.workerStrain,
-      };
-    },
-    emptyStats
-  );
-
-  return {
-    profit: Math.round(totals.profit / runs.length),
-    visibility: Math.round(totals.visibility / runs.length),
-    dependence: Math.round(totals.dependence / runs.length),
-    workerStrain: Math.round(totals.workerStrain / runs.length),
-  };
-}
 
 function StatCard({ label, value, tone = "blue" }: StatCardProps) {
   return (
@@ -106,9 +59,7 @@ export default function HostScreen({ onBack }: { onBack: () => void }) {
   const averages = averageStats(runs);
   const averageDisplayItems = getStatDisplayItems(averages);
   const dashboardSummary = getDashboardSummary(averages, runs.length);
-  const recentRuns = [...runs]
-    .sort((a, b) => ("timestamp" in b ? b.timestamp ?? 0 : 0) - ("timestamp" in a ? a.timestamp ?? 0 : 0))
-    .slice(0, 5);
+  const latestRuns = recentRuns(runs, 5);
 
   return (
     <main className="screen screen-host">
@@ -182,8 +133,8 @@ export default function HostScreen({ onBack }: { onBack: () => void }) {
 
           <div className="choice-path host-panel">
             <p className="eyebrow">Recent endings</p>
-            {recentRuns.length === 0 && <p>No runs saved yet.</p>}
-            {recentRuns.map((run, index) => (
+            {latestRuns.length === 0 && <p>No runs saved yet.</p>}
+            {latestRuns.map((run, index) => (
               <p key={index}>
                 {"endingTitle" in run ? run.endingTitle : "Older saved run"}
               </p>
