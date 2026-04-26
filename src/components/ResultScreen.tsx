@@ -36,6 +36,7 @@ export default function ResultScreen({
         <p className="eyebrow">Run complete</p>
         <h1>{ending.title}</h1>
         <p className="takeaway">{ending.takeaway}</p>
+        <p className="result-example">{ending.example}</p>
 
         <div className="result-stats">
           {statItems.map((item) => (
@@ -68,7 +69,8 @@ export default function ResultScreen({
           <h2>Your Path</h2>
           {choices.map((choice) => (
             <p key={choice.gateId}>
-              Option {choice.gateNumber}: {choice.side.toUpperCase()} - {choice.label}
+              <span className="path-icon" aria-hidden="true">{choice.icon}</span>
+              Option {choice.gateNumber}: {choice.label}
             </p>
           ))}
         </div>

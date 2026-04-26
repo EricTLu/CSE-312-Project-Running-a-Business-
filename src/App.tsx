@@ -61,6 +61,7 @@ export default function App() {
       gateId: gate.id,
       gateNumber: currentGateIndex + 1,
       side,
+      icon: choice.icon,
       label: choice.label,
       effects: choice.effects,
     };

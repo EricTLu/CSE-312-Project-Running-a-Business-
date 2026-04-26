@@ -117,6 +117,7 @@ export default function HostScreen({ onBack }: { onBack: () => void }) {
               </button>
             </div>
             <p>{dashboardSummary.summary}</p>
+            <p className="dashboard-example">{dashboardSummary.example}</p>
 
             {showOtherOutcomes && (
               <div className="outcomes-panel">
@@ -125,6 +126,7 @@ export default function HostScreen({ onBack }: { onBack: () => void }) {
                     <span>{outcome.pattern}</span>
                     <h3>{outcome.title}</h3>
                     <p>{outcome.summary}</p>
+                    <p className="outcome-example">{outcome.example}</p>
                   </article>
                 ))}
               </div>

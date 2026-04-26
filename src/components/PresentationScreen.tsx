@@ -36,7 +36,7 @@ export default function PresentationScreen({ onBack }: Props) {
     {
       eyebrow: "CSE 312 Project",
       title: "Run a Business",
-      subtitle: "A short interactive game about running a small business online.",
+      subtitle: "An interactive simulation of decision-making in platform systems.",
       type: "cover",
     },
     {
@@ -51,12 +51,12 @@ export default function PresentationScreen({ onBack }: Props) {
     },
     {
       eyebrow: "What it tracks",
-      title: "Each choice changes four business stats.",
+      title: "What is tracked",
       bullets: [
+        "There are no good or bad options. They are tradeoffs.",
         "Profit: how much the business gains.",
         "Visibility: how much attention the business gets.",
-        "Dependence: how much the business relies on outside systems.",
-        "Worker strain: how much pressure the business creates.",
+        "Dependence and strain: how much outside pressure the path creates.",
       ],
       type: "text",
     },
@@ -78,8 +78,12 @@ export default function PresentationScreen({ onBack }: Props) {
     },
     {
       eyebrow: "What the results mean",
-      title: summary.title,
-      subtitle: summary.summary,
+      title: "The result depends on the final stat pattern.",
+      bullets: [
+        "High Profit + High Dependence means growth came with reliance.",
+        "High Visibility + High Strain means attention also created pressure.",
+        "Balanced stats show the system forcing tradeoffs between growth and control.",
+      ],
       type: "interpretation",
     },
     {
@@ -215,8 +219,8 @@ export default function PresentationScreen({ onBack }: Props) {
               <div className="presentation-mini-game">
                 <h2>Choose an Option</h2>
                 <div className="mini-road">
-                  <div className="mini-option">Keep Control</div>
-                  <div className="mini-option selected">Boost Reach</div>
+                  <div className="mini-option">🔒 Respect privacy</div>
+                  <div className="mini-option selected">🎯 Targeted ads</div>
                   <div className="mini-runner">YOU</div>
                 </div>
               </div>
@@ -261,6 +265,7 @@ export default function PresentationScreen({ onBack }: Props) {
               <p className="menu-kicker">Live dashboard reading</p>
               <h2>{summary.title}</h2>
               <p>{summary.summary}</p>
+              <p className="dashboard-example">{summary.example}</p>
               <div className="recent-run-list">
                 <span>Recent endings</span>
                 {latestRuns.length === 0 && <p>No runs yet.</p>}

@@ -204,10 +204,12 @@ export default function RunnerScreen({
           >
             <div className={`gate-card gate-left ${lane === "left" ? "selected" : ""}`}>
               <span>Left</span>
+              <div className="gate-icon" aria-hidden="true">{gate.left.icon}</div>
               <strong>{gate.left.label}</strong>
             </div>
             <div className={`gate-card gate-right ${lane === "right" ? "selected" : ""}`}>
               <span>Right</span>
+              <div className="gate-icon" aria-hidden="true">{gate.right.icon}</div>
               <strong>{gate.right.label}</strong>
             </div>
           </div>

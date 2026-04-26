@@ -8,6 +8,7 @@ export type Stats = {
 export type ChoiceSide = "left" | "right";
 
 export type GateChoice = {
+  icon: string;
   label: string;
   effects: Stats;
 };
@@ -22,6 +23,7 @@ export type PlayerChoice = {
   gateId: number;
   gateNumber: number;
   side: ChoiceSide;
+  icon: string;
   label: string;
   effects: Stats;
 };
@@ -37,55 +39,65 @@ export const gates: Gate[] = [
   {
     id: 1,
     left: {
-      label: "Drop prices",
+      icon: "🏷",
+      label: "Lower your prices",
       effects: { profit: 8, visibility: 3, dependence: 0, workerStrain: 1 },
     },
     right: {
-      label: "Buy targeted promo",
+      icon: "🎯",
+      label: "Run targeted ads",
       effects: { profit: 12, visibility: 10, dependence: 8, workerStrain: 2 },
     },
   },
   {
     id: 2,
     left: {
+      icon: "📦",
       label: "Pack orders yourself",
       effects: { profit: 4, visibility: 1, dependence: 0, workerStrain: 4 },
     },
     right: {
-      label: "Offer free delivery",
+      icon: "🚚",
+      label: "Offer faster / free delivery",
       effects: { profit: 10, visibility: 6, dependence: 7, workerStrain: 3 },
     },
   },
   {
     id: 3,
     left: {
-      label: "Grow your niche",
+      icon: "🗣",
+      label: "Promote through friends",
       effects: { profit: 5, visibility: 2, dependence: 0, workerStrain: 0 },
     },
     right: {
-      label: "Make TikTok ads",
+      icon: "🎵",
+      label: "Run TikTok ads",
       effects: { profit: 11, visibility: 9, dependence: 5, workerStrain: 2 },
     },
   },
   {
     id: 4,
     left: {
-      label: "Avoid data tracking",
+      icon: "🔒",
+      label: "Respect user privacy",
       effects: { profit: 4, visibility: 1, dependence: -2, workerStrain: 1 },
     },
     right: {
-      label: "Use AI tracking",
+      icon: "📊",
+      label: "Use data to understand customers",
       effects: { profit: 12, visibility: 8, dependence: 10, workerStrain: 3 },
     },
   },
   {
     id: 5,
     left: {
+      icon: "🏪",
       label: "Stay independent",
       effects: { profit: 6, visibility: 3, dependence: -1, workerStrain: 1 },
     },
     right: {
-      label: "Sell through the app",
+      icon: "🏬",
+      label: "Expand to Amazon / big retailers",
       effects: { profit: 15, visibility: 12, dependence: 12, workerStrain: 4 },
     },
   },

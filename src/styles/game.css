@@ -281,6 +281,23 @@ h2 {
   line-height: 1.35;
 }
 
+.choice-path p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.path-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border-radius: 999px;
+  background: rgba(245, 245, 247, 0.92);
+  box-shadow: 0 6px 16px rgba(33, 53, 84, 0.08);
+}
+
 .comparison-item {
   display: grid;
   gap: 5px;
@@ -595,13 +612,13 @@ h2 {
 }
 
 .gate-card {
-  min-height: 92px;
-  padding: 10px;
+  min-height: 118px;
+  padding: 12px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
   border: 1px solid rgba(255, 255, 255, 0.64);
   border-radius: 20px;
   color: #4b5563;
@@ -627,8 +644,19 @@ h2 {
 }
 
 .gate-card strong {
-  font-size: 0.98rem;
-  line-height: 1.05;
+  font-size: 0.94rem;
+  line-height: 1.08;
+}
+
+.gate-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  font-size: 1.02rem;
+  box-shadow: 0 8px 18px rgba(33, 53, 84, 0.12);
 }
 
 .player {
@@ -991,6 +1019,15 @@ h2 {
   text-align: left;
 }
 
+.result-example {
+  margin-top: -6px;
+  padding: 0 2px;
+  color: #6e6e73;
+  font-size: 0.94rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
 .save-status {
   padding: 10px;
   border-radius: 18px;
@@ -1207,10 +1244,19 @@ h2 {
   letter-spacing: -0.02em;
 }
 
+.outcome-example {
+  color: #6e6e73 !important;
+  font-size: 0.9rem !important;
+}
+
 .host-panel p {
   color: #4b5563;
   font-size: clamp(1rem, 1.4vw, 1.22rem);
   line-height: 1.45;
+}
+
+.dashboard-example {
+  color: #6e6e73 !important;
 }
 
 .host-footer {
