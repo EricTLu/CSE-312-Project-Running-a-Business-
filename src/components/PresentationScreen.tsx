@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import { db } from "../firebase";
-import { getDashboardSummary } from "../dashboardSummary";
 import { requestAppFullscreen } from "../fullscreen";
-import { averageStats, recentRuns, type StoredRun } from "../runAnalytics";
+import { averageStats, type StoredRun } from "../runAnalytics";
 import { getStatDisplayItems, STAT_DISPLAY_MAX } from "../statDisplay";
 
 type Props = {
@@ -11,6 +10,19 @@ type Props = {
 };
 
 const PHONE_PLAY_URL = "http://172.24.23.243:5173/";
+
+const slides = [
+  { type: "image", src: "/presentation-slides/1.png", alt: "Presentation slide 1" },
+  { type: "image", src: "/presentation-slides/2.png", alt: "Presentation slide 2" },
+  { type: "image", src: "/presentation-slides/3.png", alt: "Presentation slide 3" },
+  { type: "qr", title: "Play one run" },
+  { type: "liveStats", title: "Data" },
+  { type: "image", src: "/presentation-slides/6.png", alt: "Presentation slide 6" },
+  { type: "image", src: "/presentation-slides/7.png", alt: "Presentation slide 7" },
+  { type: "image", src: "/presentation-slides/8.png", alt: "Presentation slide 8" },
+  { type: "image", src: "/presentation-slides/9.png", alt: "Presentation slide 9" },
+  { type: "image", src: "/presentation-slides/10.png", alt: "Presentation slide 10" },
+] as const;
 
 function getPlayUrl() {
   if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
@@ -22,112 +34,12 @@ function getPlayUrl() {
 
 export default function PresentationScreen({ onBack }: Props) {
   const [slideIndex, setSlideIndex] = useState(0);
-  const [runs, setRuns] = useState<StoredRun[]>([]);
   const [fullscreenError, setFullscreenError] = useState(false);
-
+  const [runs, setRuns] = useState<StoredRun[]>([]);
+  const currentSlide = slides[slideIndex];
   const playUrl = useMemo(() => getPlayUrl(), []);
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=${encodeURIComponent(playUrl)}`;
-  const averages = averageStats(runs);
-  const statItems = getStatDisplayItems(averages);
-  const summary = getDashboardSummary(averages, runs.length);
-  const latestRuns = recentRuns(runs, 3);
-
-  const slides = [
-    {
-      eyebrow: "CSE 312 Project",
-      title: "Run a Business",
-      subtitle: "An interactive simulation of decision-making in platform systems.",
-      type: "cover",
-    },
-    {
-      eyebrow: "Before we play",
-      title: "How the game works",
-      bullets: [
-        "Your character runs forward automatically.",
-        "Before each option, move left or right to choose.",
-        "Use arrow keys, A/D, touch buttons, or swipes.",
-      ],
-      type: "text",
-    },
-    {
-      eyebrow: "What it tracks",
-      title: "What is tracked",
-      bullets: [
-        "There are no good or bad options. They are tradeoffs.",
-        "Profit: how much the business gains.",
-        "Visibility: how much attention the business gets.",
-        "Dependence and strain: how much outside pressure the path creates.",
-      ],
-      type: "text",
-    },
-    {
-      eyebrow: "Live game",
-      title: "Scan the code and play one run.",
-      bullets: [
-        "Make choices that seem reasonable in the moment.",
-        "The game saves the final stats when each run ends.",
-        "After everyone plays, we will look at the class pattern.",
-      ],
-      type: "qr",
-    },
-    {
-      eyebrow: "Live class results",
-      title: "Data",
-      type: "liveStats",
-    },
-    {
-      eyebrow: "What the results mean",
-      title: "The result depends on the final stat pattern.",
-      bullets: [
-        "High Profit + High Dependence means growth came with reliance.",
-        "High Visibility + High Strain means attention also created pressure.",
-        "Balanced stats show the system forcing tradeoffs between growth and control.",
-      ],
-      type: "interpretation",
-    },
-    {
-      eyebrow: "Project argument",
-      title: "This is a simplified simulation of how systems shape decisions.",
-      bullets: [
-        "The game is not trying to be a full platform.",
-        "A real platform would need many more rules, incentives, and feedback loops.",
-        "The simplified version keeps the pattern visible enough for a classroom demo.",
-      ],
-      type: "text",
-    },
-    {
-      eyebrow: "Example",
-      title: "A delivery app can make dependence feel like a normal business choice.",
-      bullets: [
-        "A restaurant joins an app to increase visibility and sales.",
-        "That choice makes sense in the short term.",
-        "Over time, fees, ranking, customer access, and app rules can reduce control.",
-      ],
-      type: "text",
-    },
-    {
-      eyebrow: "Class connection",
-      title: "The structure of a system can create predictable outcomes.",
-      bullets: [
-        "Individual choices can seem independent while still moving toward a dominant pattern.",
-        "The game rewards profit and visibility, so players naturally move toward those outcomes.",
-        "That is the gamification angle: the system makes certain behaviors feel like the obvious path.",
-      ],
-      type: "text",
-    },
-    {
-      eyebrow: "Final thought",
-      title: "The platform makes some choices easier to choose.",
-      bullets: [
-        "The point is not that players are making bad decisions.",
-        "The point is that incentives can reward growth while producing dependence.",
-        "A different system with different priorities might reward different choices.",
-      ],
-      type: "takeaway",
-    },
-  ];
-
-  const currentSlide = slides[slideIndex];
+  const statItems = getStatDisplayItems(averageStats(runs));
 
   useEffect(() => {
     const runsRef = ref(db, "runs");
@@ -158,7 +70,7 @@ export default function PresentationScreen({ onBack }: Props) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onBack, slides.length]);
+  }, [onBack]);
 
   const enterFullscreen = async () => {
     try {
@@ -184,7 +96,9 @@ export default function PresentationScreen({ onBack }: Props) {
         <header className="presentation-topbar">
           <div>
             <span>Run a Business</span>
-            <strong>{slideIndex + 1} / {slides.length}</strong>
+            <strong>
+              {slideIndex + 1} / {slides.length}
+            </strong>
           </div>
           <div className="presentation-actions">
             <button onClick={enterFullscreen}>Fullscreen</button>
@@ -192,33 +106,29 @@ export default function PresentationScreen({ onBack }: Props) {
           </div>
         </header>
 
-        {fullscreenError && <p className="presentation-error">Fullscreen was blocked. Use the browser control if needed.</p>}
+        {fullscreenError && (
+          <p className="presentation-error">Fullscreen was blocked. Use the browser control if needed.</p>
+        )}
 
-        <article className={`presentation-slide slide-${currentSlide.type}`}>
-          <div className="presentation-copy">
-            <p className="menu-kicker">{currentSlide.eyebrow}</p>
-            <h1>{currentSlide.title}</h1>
-            {currentSlide.subtitle && <p className="presentation-subtitle">{currentSlide.subtitle}</p>}
-            {"bullets" in currentSlide && currentSlide.bullets && (
+        {currentSlide.type === "image" && (
+          <article className="presentation-slide presentation-image-slide">
+            <img className="presentation-slide-image" src={currentSlide.src} alt={currentSlide.alt} />
+          </article>
+        )}
+
+        {currentSlide.type === "qr" && (
+          <article className="presentation-slide slide-qr">
+            <div className="presentation-copy">
+              <p className="menu-kicker">CSE 312 Project - Eric Lu</p>
+              <h1>{currentSlide.title}</h1>
               <div className="presentation-bullets">
-                {currentSlide.bullets.map((bullet) => (
-                  <p key={bullet}>{bullet}</p>
-                ))}
+                <p>Scan the QR code.</p>
+                <p>Complete one run.</p>
+                <p>Make choices you would actually make.</p>
+                <p>We&apos;ll look at the class results after.</p>
               </div>
-            )}
-          </div>
-
-          {currentSlide.type === "cover" && (
-            <div className="presentation-window game-preview-window image-preview-window">
-              <img
-                className="presentation-preview-image"
-                src="/presentation-game-preview.png"
-                alt="Gameplay preview showing two options and Wolfie on the road"
-              />
             </div>
-          )}
 
-          {currentSlide.type === "qr" && (
             <div className="presentation-window qr-presentation-card">
               <div className="window-dots" aria-hidden="true">
                 <span />
@@ -226,12 +136,19 @@ export default function PresentationScreen({ onBack }: Props) {
                 <span />
               </div>
               <img src={qrCodeUrl} alt="QR code to play Run a Business" />
-              <h2>Play on Your Phone</h2>
+              <h2>Scan to join</h2>
               <p>{playUrl}</p>
             </div>
-          )}
+          </article>
+        )}
 
-          {currentSlide.type === "liveStats" && (
+        {currentSlide.type === "liveStats" && (
+          <article className="presentation-slide slide-liveStats">
+            <div className="presentation-copy">
+              <p className="menu-kicker">CSE 312 Project - Eric Lu</p>
+              <h1>{currentSlide.title}</h1>
+            </div>
+
             <div className="presentation-live-panel">
               <div className="presentation-total">
                 <span>Total Runs</span>
@@ -249,32 +166,8 @@ export default function PresentationScreen({ onBack }: Props) {
                 ))}
               </div>
             </div>
-          )}
-
-          {currentSlide.type === "interpretation" && (
-            <div className="presentation-window interpretation-live-card">
-              <p className="menu-kicker">Live dashboard reading</p>
-              <h2>{summary.title}</h2>
-              <p>{summary.summary}</p>
-              <p className="dashboard-example">{summary.example}</p>
-              <div className="recent-run-list">
-                <span>Recent endings</span>
-                {latestRuns.length === 0 && <p>No runs yet.</p>}
-                {latestRuns.map((run, index) => (
-                  <p key={index}>{"endingTitle" in run ? run.endingTitle : "Older saved run"}</p>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {currentSlide.type === "takeaway" && (
-            <div className="presentation-final-mark">
-              <span>Platform</span>
-              <span>Incentives</span>
-              <span>Choice</span>
-            </div>
-          )}
-        </article>
+          </article>
+        )}
 
         <footer className="presentation-controls">
           <button disabled={slideIndex === 0} onClick={() => setSlideIndex((current) => Math.max(current - 1, 0))}>
