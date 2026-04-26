@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import { db } from "../firebase";
-import { requestAppFullscreen } from "../fullscreen";
+import { exitAppFullscreen, requestAppFullscreen } from "../fullscreen";
 import { averageStats, type StoredRun } from "../runAnalytics";
 import { getStatDisplayItems, STAT_DISPLAY_MAX } from "../statDisplay";
 
@@ -36,9 +36,11 @@ export default function PresentationScreen({ onBack }: Props) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [fullscreenError, setFullscreenError] = useState(false);
   const [runs, setRuns] = useState<StoredRun[]>([]);
+  const [showQrFullscreen, setShowQrFullscreen] = useState(false);
   const currentSlide = slides[slideIndex];
   const playUrl = useMemo(() => getPlayUrl(), []);
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=${encodeURIComponent(playUrl)}`;
+  const largeQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=520x520&data=${encodeURIComponent(playUrl)}`;
   const statItems = getStatDisplayItems(averageStats(runs));
 
   useEffect(() => {
@@ -82,6 +84,28 @@ export default function PresentationScreen({ onBack }: Props) {
     }
   };
 
+  const openQrFullscreen = async () => {
+    setShowQrFullscreen(true);
+
+    try {
+      await requestAppFullscreen();
+      setFullscreenError(false);
+    } catch (error) {
+      console.warn("QR fullscreen request was blocked:", error);
+      setFullscreenError(true);
+    }
+  };
+
+  const closeQrFullscreen = async () => {
+    setShowQrFullscreen(false);
+
+    try {
+      await exitAppFullscreen();
+    } catch (error) {
+      console.warn("Could not exit fullscreen:", error);
+    }
+  };
+
   return (
     <main className="presentation-mode">
       <section className="presentation-mobile-message">
@@ -121,7 +145,7 @@ export default function PresentationScreen({ onBack }: Props) {
             <div className="presentation-copy">
               <p className="menu-kicker">CSE 312 Project - Eric Lu</p>
               <h1>{currentSlide.title}</h1>
-              <div className="presentation-bullets">
+              <div className="presentation-bullets presentation-qr-bullets">
                 <p>Scan the QR code.</p>
                 <p>Complete one run.</p>
                 <p>Make choices you would actually make.</p>
@@ -138,6 +162,9 @@ export default function PresentationScreen({ onBack }: Props) {
               <img src={qrCodeUrl} alt="QR code to play Run a Business" />
               <h2>Scan to join</h2>
               <p>{playUrl}</p>
+              <button className="secondary-button presentation-qr-button" onClick={openQrFullscreen}>
+                Fullscreen QR Code
+              </button>
             </div>
           </article>
         )}
@@ -184,6 +211,20 @@ export default function PresentationScreen({ onBack }: Props) {
           </button>
         </footer>
       </section>
+
+      {showQrFullscreen && (
+        <div className="qr-fullscreen" role="dialog" aria-modal="true" aria-label="Fullscreen QR code">
+          <button className="qr-close-button" onClick={closeQrFullscreen}>
+            Close
+          </button>
+          <div className="qr-fullscreen-content">
+            <p className="menu-kicker">Scan to join</p>
+            <h1>Run a Business</h1>
+            <img src={largeQrCodeUrl} alt="QR code to play Run a Business" />
+            <p>{playUrl}</p>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
