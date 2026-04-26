@@ -1580,6 +1580,39 @@ h2 {
   gap: 8px;
 }
 
+.presentation-data-header {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+
+.presentation-data-header .menu-kicker,
+.presentation-data-header h1 {
+  grid-column: 1;
+}
+
+.presentation-data-qr {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.presentation-data-qr img {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(33, 53, 84, 0.12);
+}
+
+.presentation-data-qr-button {
+  width: auto;
+  min-height: 36px;
+  padding-inline: 14px;
+  font-size: 0.82rem;
+}
+
 .presentation-live-panel {
   grid-column: 1 / -1;
   padding: 20px;

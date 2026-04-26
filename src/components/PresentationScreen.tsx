@@ -171,9 +171,15 @@ export default function PresentationScreen({ onBack }: Props) {
 
         {currentSlide.type === "liveStats" && (
           <article className="presentation-slide slide-liveStats">
-            <div className="presentation-copy">
+            <div className="presentation-copy presentation-data-header">
               <p className="menu-kicker">CSE 312 Project - Eric Lu</p>
               <h1>{currentSlide.title}</h1>
+              <div className="presentation-data-qr">
+                <img src={qrCodeUrl} alt="QR code to join the game from the data slide" />
+                <button className="secondary-button presentation-data-qr-button" onClick={openQrFullscreen}>
+                  Fullscreen QR
+                </button>
+              </div>
             </div>
 
             <div className="presentation-live-panel">
