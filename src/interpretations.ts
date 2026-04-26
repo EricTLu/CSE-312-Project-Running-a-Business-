@@ -60,6 +60,12 @@ const interpretations: Interpretation[] = [
 ];
 
 export const possibleInterpretations = interpretations;
+export const FORCE_INTERPRETATION_AFTER_RUNS = 20;
+export const FORCED_INTERPRETATION_ID = "high-profit-high-dependence";
+
+function getInterpretationById(id: string) {
+  return interpretations.find((interpretation) => interpretation.id === id);
+}
 
 export function getInterpretation(stats: Stats, totalRuns = 1): Interpretation {
   if (totalRuns === 0) {
@@ -71,6 +77,13 @@ export function getInterpretation(stats: Stats, totalRuns = 1): Interpretation {
         "There is not enough class data yet to show a clear pattern. Once a few runs come in, the interpretation will shift based on the average stat mix.",
       example: "Example: after more people play, we can compare whether the room leans toward growth, pressure, or independence.",
     };
+  }
+
+  if (totalRuns >= FORCE_INTERPRETATION_AFTER_RUNS) {
+    const forcedInterpretation = getInterpretationById(FORCED_INTERPRETATION_ID);
+    if (forcedInterpretation) {
+      return forcedInterpretation;
+    }
   }
 
   const highProfit = stats.profit >= 48;
