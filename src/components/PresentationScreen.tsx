@@ -72,8 +72,7 @@ export default function PresentationScreen({ onBack }: Props) {
     },
     {
       eyebrow: "Live class results",
-      title: "Now the room becomes the dataset.",
-      subtitle: "As runs finish, the class averages update from Firebase in real time.",
+      title: "Data",
       type: "liveStats",
     },
     {
@@ -210,20 +209,12 @@ export default function PresentationScreen({ onBack }: Props) {
           </div>
 
           {currentSlide.type === "cover" && (
-            <div className="presentation-window game-preview-window">
-              <div className="window-dots" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="presentation-mini-game">
-                <h2>Choose an Option</h2>
-                <div className="mini-road">
-                  <div className="mini-option">🔒 Respect privacy</div>
-                  <div className="mini-option selected">🎯 Targeted ads</div>
-                  <div className="mini-runner">YOU</div>
-                </div>
-              </div>
+            <div className="presentation-window game-preview-window image-preview-window">
+              <img
+                className="presentation-preview-image"
+                src="/presentation-game-preview.png"
+                alt="Gameplay preview showing two options and Wolfie on the road"
+              />
             </div>
           )}
 

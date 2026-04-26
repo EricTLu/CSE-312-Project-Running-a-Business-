@@ -1284,10 +1284,10 @@ h2 {
 
 .presentation-stage {
   height: 100dvh;
-  padding: 18px;
+  padding: 12px 18px;
   display: grid;
-  grid-template-rows: 42px minmax(0, 1fr) 42px;
-  gap: 12px;
+  grid-template-rows: 36px minmax(0, 1fr) 36px;
+  gap: 10px;
   overflow: hidden;
 }
 
@@ -1315,7 +1315,7 @@ h2 {
 
 .presentation-topbar span,
 .presentation-topbar strong {
-  font-size: 0.9rem;
+  font-size: 0.82rem;
 }
 
 .presentation-actions {
@@ -1325,11 +1325,12 @@ h2 {
 
 .presentation-actions button,
 .presentation-controls button {
-  min-height: 42px;
-  padding: 9px 18px;
+  min-height: 36px;
+  padding: 7px 14px;
   border-radius: 999px;
   background: rgba(29, 29, 31, 0.82);
   color: #ffffff;
+  font-size: 0.86rem;
   font-weight: 760;
 }
 
@@ -1345,19 +1346,19 @@ h2 {
 }
 
 .presentation-slide {
-  width: min(1180px, calc(100vw - 36px), calc((100dvh - 132px) * 16 / 9));
-  height: min(calc(100dvh - 132px), calc((100vw - 36px) * 9 / 16), 664px);
+  width: min(calc((100dvh - 108px) * 16 / 9), calc(100vw - 48px), 1280px);
+  height: min(calc(100dvh - 108px), calc((100vw - 48px) * 9 / 16), 720px);
   aspect-ratio: 16 / 9;
   margin-inline: auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(360px, 0.72fr);
-  gap: clamp(22px, 4vw, 56px);
+  gap: clamp(20px, 3vw, 44px);
   align-items: center;
-  padding: clamp(28px, 4vw, 52px);
+  padding: clamp(22px, 3vw, 38px);
   border: 1px solid rgba(255, 255, 255, 0.72);
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 34px 90px rgba(33, 53, 84, 0.16);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 26px 64px rgba(33, 53, 84, 0.14);
   backdrop-filter: blur(28px) saturate(1.15);
   overflow: hidden;
 }
@@ -1369,8 +1370,8 @@ h2 {
 
 .presentation-copy h1 {
   max-width: 760px;
-  font-size: clamp(2.6rem, 5vw, 4.6rem);
-  line-height: 0.94;
+  font-size: clamp(2.1rem, 3.9vw, 3.45rem);
+  line-height: 0.96;
   letter-spacing: -0.055em;
 }
 
@@ -1387,7 +1388,7 @@ h2 {
 .presentation-subtitle {
   max-width: 760px;
   color: #4b5563;
-  font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+  font-size: clamp(0.95rem, 1.2vw, 1.12rem);
   line-height: 1.28;
   font-weight: 560;
 }
@@ -1403,7 +1404,7 @@ h2 {
   position: relative;
   padding-left: 26px;
   color: #4b5563;
-  font-size: clamp(0.98rem, 1.34vw, 1.18rem);
+  font-size: clamp(0.9rem, 1.06vw, 1rem);
   line-height: 1.35;
 }
 
@@ -1429,7 +1430,22 @@ h2 {
 }
 
 .game-preview-window {
-  min-height: 390px;
+  min-height: 360px;
+}
+
+.image-preview-window {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.presentation-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 18px 48px rgba(33, 53, 84, 0.14);
 }
 
 .presentation-mini-game {
@@ -1529,15 +1545,20 @@ h2 {
 }
 
 .slide-liveStats {
-  grid-template-columns: 0.72fr 1fr;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.slide-liveStats .presentation-copy {
+  gap: 8px;
 }
 
 .presentation-live-panel {
   grid-column: 1 / -1;
-  padding: 24px;
+  padding: 20px;
   display: grid;
   grid-template-columns: 0.8fr 2fr;
-  gap: 18px;
+  gap: 14px;
 }
 
 .presentation-total,
@@ -1560,7 +1581,7 @@ h2 {
 }
 
 .presentation-total strong {
-  font-size: clamp(4rem, 8vw, 7rem);
+  font-size: clamp(3.4rem, 6vw, 5.4rem);
   line-height: 0.9;
   letter-spacing: -0.06em;
 }
@@ -1573,7 +1594,7 @@ h2 {
 
 .presentation-stat strong {
   color: #1d1d1f;
-  font-size: clamp(1.45rem, 2.5vw, 2.35rem);
+  font-size: clamp(1.2rem, 1.8vw, 1.72rem);
 }
 
 .interpretation-live-card {
@@ -1583,7 +1604,7 @@ h2 {
 }
 
 .interpretation-live-card h2 {
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
   letter-spacing: -0.05em;
 }
 
@@ -1617,7 +1638,7 @@ h2 {
   border-radius: 22px;
   background: rgba(245, 245, 247, 0.86);
   color: #1d1d1f;
-  font-size: clamp(1.12rem, 2vw, 1.9rem);
+  font-size: clamp(0.98rem, 1.4vw, 1.35rem);
   font-weight: 850;
   letter-spacing: -0.04em;
 }
