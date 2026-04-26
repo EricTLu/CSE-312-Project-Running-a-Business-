@@ -1615,10 +1615,10 @@ h2 {
 
 .presentation-live-panel {
   grid-column: 1 / -1;
-  padding: 20px;
+  padding: 18px;
   display: grid;
   grid-template-columns: 0.8fr 2fr;
-  gap: 14px;
+  gap: 12px;
 }
 
 .presentation-total,
@@ -1649,12 +1649,40 @@ h2 {
 .presentation-stat-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .presentation-stat strong {
   color: #1d1d1f;
   font-size: clamp(1.2rem, 1.8vw, 1.72rem);
+}
+
+.presentation-live-summary {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 6px;
+  padding: 16px 20px;
+  border-radius: 22px;
+  background: rgba(245, 245, 247, 0.82);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.presentation-live-summary span {
+  color: #86868b;
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.presentation-live-summary h2 {
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  letter-spacing: -0.03em;
+}
+
+.presentation-live-summary p {
+  color: #4b5563;
+  font-size: clamp(0.9rem, 1vw, 0.98rem);
+  line-height: 1.34;
 }
 
 .interpretation-live-card {

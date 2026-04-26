@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import { db } from "../firebase";
+import { getDashboardSummary } from "../dashboardSummary";
 import { exitAppFullscreen, requestAppFullscreen } from "../fullscreen";
 import { averageStats, type StoredRun } from "../runAnalytics";
 import { getStatDisplayItems, STAT_DISPLAY_MAX } from "../statDisplay";
@@ -41,7 +42,9 @@ export default function PresentationScreen({ onBack }: Props) {
   const playUrl = useMemo(() => getPlayUrl(), []);
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=${encodeURIComponent(playUrl)}`;
   const largeQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=520x520&data=${encodeURIComponent(playUrl)}`;
-  const statItems = getStatDisplayItems(averageStats(runs));
+  const averageRunStats = averageStats(runs);
+  const statItems = getStatDisplayItems(averageRunStats);
+  const liveSummary = getDashboardSummary(averageRunStats, runs.length);
 
   useEffect(() => {
     const runsRef = ref(db, "runs");
@@ -198,6 +201,12 @@ export default function PresentationScreen({ onBack }: Props) {
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="presentation-live-summary">
+              <span>Live Interpretation</span>
+              <h2>{liveSummary.title}</h2>
+              <p>{liveSummary.summary}</p>
             </div>
           </article>
         )}
