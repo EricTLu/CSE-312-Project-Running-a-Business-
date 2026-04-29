@@ -60,12 +60,6 @@ const interpretations: Interpretation[] = [
 ];
 
 export const possibleInterpretations = interpretations;
-export const FORCE_INTERPRETATION_AFTER_RUNS = 20;
-export const FORCED_INTERPRETATION_ID = "high-profit-high-dependence";
-
-function getInterpretationById(id: string) {
-  return interpretations.find((interpretation) => interpretation.id === id);
-}
 
 export function getInterpretation(stats: Stats, totalRuns = 1): Interpretation {
   if (totalRuns === 0) {
@@ -79,13 +73,9 @@ export function getInterpretation(stats: Stats, totalRuns = 1): Interpretation {
     };
   }
 
-  if (totalRuns >= FORCE_INTERPRETATION_AFTER_RUNS) {
-    const forcedInterpretation = getInterpretationById(FORCED_INTERPRETATION_ID);
-    if (forcedInterpretation) {
-      return forcedInterpretation;
-    }
-  }
-
+  // Interpretation logic is threshold-based. It reads the final or average
+  // stat totals and maps them to the closest pattern; it does not override the
+  // result with a fixed ending anymore.
   const highProfit = stats.profit >= 48;
   const lowerProfit = stats.profit < 30;
   const highVisibility = stats.visibility >= 32;

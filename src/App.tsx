@@ -50,6 +50,9 @@ export default function App() {
     const gate = gates[currentGateIndex];
     const choice = gate[side];
 
+    // Stat tracking is intentionally simple: every option has a fixed effect,
+    // and the run total is just the sum of the chosen effects across all options.
+    // There is no hidden multiplier or decay formula here.
     const newStats = {
       profit: stats.profit + choice.effects.profit,
       visibility: stats.visibility + choice.effects.visibility,

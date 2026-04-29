@@ -35,6 +35,9 @@ export const initialStats: Stats = {
   workerStrain: 0,
 };
 
+// Each option uses hand-tuned stat deltas rather than a generated formula.
+// During a run, the game adds these values directly onto the current totals.
+// Positive numbers increase a stat, and negative numbers reduce it.
 export const gates: Gate[] = [
   {
     id: 1,
